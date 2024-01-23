@@ -35,15 +35,15 @@ from pyspark.sql.types import (
         IntegerType | 'amt', 'cnt' | 0
         IntegerType | 'cd', 'id', 'no', 'type' | -1
         IntegerType | None | -9999
-        LongType | 'amt', 'cnt' | 00
-        LongType | 'cd', 'id', 'no' | 10
-        LongType | None | 9999
-        DoubleType | 'amt', 'cnt' | 0.0
+        LongType | 'amt', 'cnt' | -10
+        LongType | 'cd', 'id', 'no' | -100
+        LongType | None | -99999
+        DoubleType | 'amt', 'cnt' | -0.1
         DoubleType | 'cd', 'id', 'no' | -1.0
         DoubleType | None | -0.9999
-        DecimalType | 'amt', 'cnt' | 0.0
-        DecimalType | 'cd', 'id', 'no' | -1.0
-        DecimalType | None | -0.9999
+        DecimalType | 'amt', 'cnt' | -0.11
+        DecimalType | 'cd', 'id', 'no' | -1.1
+        DecimalType | None | -0.99999
         TimestampType | 'ts' | datetime.datetime(9999, 1, 1)
         TimestampType | None | datetime.datetime(1111, 1, 1)
         DateType | 'dt' | datetime.date(9999, 1, 1)
