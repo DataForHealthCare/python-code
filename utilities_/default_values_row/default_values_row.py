@@ -165,23 +165,23 @@ class DefaultRow:
                 case (IntegerType(), int):
                     default_row.append(-9999)
                 case (LongType(), 'amt' | 'cnt'):
-                    default_row.append(00)
+                    default_row.append(-10)
                 case (LongType(), 'cd' | 'id' | 'no'):
-                    default_row.append(10)
+                    default_row.append(-100)
                 case (LongType(), int):
-                    default_row.append(9999)
+                    default_row.append(-99999)
                 case (DoubleType(), 'amt' | 'cnt'):
-                    default_row.append(-0.0)
+                    default_row.append(-0.1)
                 case (DoubleType(), 'cd' | 'id' | 'no'):
                     default_row.append(-1.0)
                 case (DoubleType(), float):
                     default_row.append(-0.9999)
                 case (DecimalType(), 'amt' | 'cnt'):
-                    default_row.append(-0.0)
+                    default_row.append(-0.11)
                 case (DecimalType(), 'cd' | 'id' | 'no'):
-                    default_row.append(-1.0)
+                    default_row.append(-1.1)
                 case (DecimalType(), float):
-                    default_row.append(-0.9999)
+                    default_row.append(-0.99999)
                 case (TimestampType(), 'ts'):
                     default_row.append(datetime.datetime(9999, 1, 1))
                 case (TimestampType(), str):
