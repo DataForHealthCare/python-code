@@ -2,6 +2,7 @@ import pytest
 import datetime
 from pyspark.sql import SparkSession
 from pyspark.sql.types import (
+    BooleanType,
     DoubleType,
     IntegerType,
     LongType,
@@ -28,7 +29,6 @@ else:
 spark = SparkSession.builder.getOrCreate()
 
 # Unit test that checks if the schema from the input dataframe match the returned StructType schema. 
-# Expected results: (PASS, PASS, PASS)
 @pytest.mark.parametrize(
     'test_df',
     [
@@ -41,15 +41,14 @@ def test_diagnose_object(test_df):
     assert DefaultRow.diagnose_object(test_df) == StructType([test_df.schema.fields[0], test_df.schema.fields[1]])
 
 # Test to verify the 'validate_column_suffix' returns the suffix when present (preceded by an underscore) and returns the string (column name) when no suffix is provided. 
-# Expected results: (PASS, PASS, PASS, FAIL, FAIL)
 @pytest.mark.parametrize(
     'column_name',
     [
         ('copay_options_yn'),
         ('access_group_code'),
         ('financial'),
-        (9),
-        (False)
+        ('_product_group'),
+        ('place_of_service#')
     ]
 )
 def test_validate_column_suffix(column_name):
@@ -58,34 +57,31 @@ def test_validate_column_suffix(column_name):
     suffix = col[-1]
     assert DefaultRow.validate_column_suffix(column_name) == suffix
 
- # Test that the method 'replicate_schema' returns the expected list of tuple with the column datatype and column name.
-#  Expected results: (PASS, FAIL, FAIL)
+# Test that the method 'replicate_schema' returns the expected list of tuple with the column datatype and column name.
 @pytest.mark.parametrize(
     'data_frame',
     [
         (spark.createDataFrame([(1, 'a'), (2, 'b')], ['id', 'name'])),
-        (spark.createDataFrame([(.99, 'a'), (.1, 'b')], ['id', 'name'])),
-        (spark.createDataFrame([(False, 'a'), (True, 'b')], ['id', 'name']))
+        (spark.createDataFrame([(1, 'a'), (-10, 'b')], ['id', 'name'])),
+        (spark.createDataFrame([(1000, 'a'), (9999, 'b')], ['id', 'name']))
     ]
 )
 def test_replicate_schema(data_frame):
     assert DefaultRow.replicate_schema(data_frame) == [(LongType(), 'id'), (StringType(), 'name')]
 
 # Test that the method 'assign_default_values' returns the expected tuple of default values.
-#  Expected results: (PASS, FAIL, FAIL)
 @pytest.mark.parametrize(
     'data_types',
     [
         ([(StringType(), 'name')]),
-        ([(DoubleType(), 'project_nm')]),
-        ([(LongType(), 'options_yn')])
+        ([(BooleanType(), 'project')]),
+        ([(StringType(), 'options_ts')])
     ]
 )
 def test_assign_default_values(data_types):
     assert DefaultRow.assign_default_values(data_types) == ('Not Available',)
 
 # Test to make sure the adsditional default row is added to the main dataframe used within the module.
-# Expected results: (PASS)
 @pytest.mark.parametrize(
     'default_row, schema, main_df',
     [
@@ -102,7 +98,6 @@ def test_connect_row(default_row, schema, main_df):
     assert final_df.count() == main_df.count() + 1
 
 # Unit test to verify the 'default_values_row.py' shared module returns a dataframe with data.
-# Expected results: (PASS)
 @pytest.mark.parametrize(
     'data_frame',
         [
