@@ -32,7 +32,7 @@ A repository featuring examples of Python programming used in various contexts i
 
 - **Goal:** Demonstrate how to translate a Jupyter notebook project to a Databricks workflow.
 
-- **Tools:** Jupyter notebooks, Panadas, scikit-learn, seaborn, matplotlib, PySpark (ml, sql), SQL
+- **Tools:** Jupyter notebooks, Pandas, scikit-learn, seaborn, matplotlib, PySpark (ml, sql), SQL
 
 - **Presentation Slides:** cost_prediction_model.pdf (Must download to view.)
 
